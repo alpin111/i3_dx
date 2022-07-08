@@ -1,0 +1,454 @@
+;==========================================================
+;
+;==========================================================
+
+; Include powerline utility
+include-file = ~/.config/polybar/powerline-for-polybar/powerline-for-polybar.config
+
+
+[colors]
+red    = #d70a53
+green  = #007a62
+lgreen = #44ff50
+teal = #00FFFF
+yellow = #ffff3d
+black  = #000000
+white  = #ffffff
+gray   = #3b3b3b
+blue = #0096FF
+sgray = #686868
+dgray = #2c2c2c
+lgray = #6e6e6e
+orange = #ff9400
+lightblue = #87CEEB
+
+background = #222
+background-alt = #444
+foreground = #dfdfdf
+foreground-alt = #555
+primary = #ffb52a
+secondary = #e60053
+alert = #bd2c40
+
+;=======================================
+; Bar
+;=======================================
+
+[bar/i3_top]
+width          = 99%
+height         = 23
+offset-x = 0.5%
+offset-y = 0.5%
+override-redirect = true
+wm-restack = i3
+fixed-center   = true
+
+font-0         = "NotoMono Nerd Font:pixelsize=15:antialias=true;3"
+font-1         = "NotoMono Nerd Font:pixelsize=8:antialias=true;3"
+
+modules-left   = xworkspaces  line-end2
+modules-right   = audio 
+
+border-size = 2
+border-color = ${colors.lgray}
+
+background     = ${colors.gray}
+foreground     = ${colors.white}
+
+tray-position = right
+
+
+[bar/i3_bar]
+; Generic options
+width          = 99%
+height         = 23
+offset-x = 0.5%
+offset-y = 0.5%
+override-redirect = true
+wm-restack = i3
+fixed-center   = true
+
+bottom         = true
+
+; Set bar's default background/foreground color
+background     = ${colors.gray}
+foreground     = ${colors.white}
+
+border-size = 2
+border-color = ${colors.lgray}
+
+; Set bar's fonts list
+#font-0         = "Inconsolata for Powerline:pixelsize=10:antialias=true;3"
+font-0         = "NotoMono Nerd Font:pixelsize=15:antialias=true;3"
+font-1         = "NotoMono Nerd Font:pixelsize=8:antialias=true;3"
+
+
+
+
+; Set modules list
+
+
+modules-center     = xwindow 
+modules-left   = logo2  files firefox seafile vsc term line-end2 filler  memory2 temperature cpu2  
+modules-right =   line-end  date shutdown logout 
+
+;override-redirect = true
+;enable-ipc = true
+
+;=======================================
+; Modules
+;=======================================
+
+
+#### center
+
+[module/xwindow]
+; Other settings
+type               = internal/xwindow
+label              = "%{T2} %title% %{T-}"
+format-foreground = ${colors.dgray}
+
+
+###########################################################################################################################
+#### from right end
+
+
+
+[module/line-end2]
+; Powerline settings
+inherit            = powerline-modules/left-to-right-end-of-line-separator
+separator          = ${colors.dgray}
+
+[module/filler]
+; Powerline settings
+inherit            = powerline-templates/left-to-right-item-with-separator
+background         = ${colors.gray}
+separator          = ${colors.gray}
+; Other settings
+format-background = ${self.background}
+content-background = ${self.background}
+type               = custom/text
+content            = "          "
+
+
+
+[module/logo2]
+; Powerline settings
+inherit            = powerline-templates/left-to-right-starting-item-with-separator
+background         = ${colors.sgray}
+separator          = ${colors.dgray}
+; Other settings
+type = custom/script
+format-background = ${self.background}
+format = <label>
+label = "    "
+click-left  = rofi -show run &
+exec = echo "o"
+
+
+[module/apps]
+; Powerline settings
+inherit            = powerline-templates/left-to-right-item-with-separator
+background         = ${colors.dgray}
+separator          = ${colors.dgray}
+; Other settings
+format-background = ${self.background}
+format-foreground = ${colors.blue}
+format = <label>
+label = "  "
+click-left  = firefox &
+type = custom/script
+exec = echo "o"
+
+
+[module/firefox]
+inherit = module/apps
+format-foreground = ${colors.yellow}
+label = ""
+click-left  = firefox &
+
+[module/files]
+inherit = module/apps
+format-foreground =  ${colors.lgreen}
+label = ""
+click-left  = caja &
+
+[module/seafile]
+inherit = module/apps
+format-foreground =  ${colors.yellow}
+label = ""
+click-left  = seafile-applet &
+
+
+[module/vsc]
+format-foreground = ${colors.lgreen}
+inherit = module/apps
+label = ""
+click-left  = codium &
+
+[module/caja]
+inherit = module/apps
+format-foreground = ${colors.lgreen}
+label = ""
+click-left  = caja ~/Downloads/ &
+
+[module/term]
+background         = ${colors.dgray}
+separator          = ${colors.dgray}
+format-foreground = ${colors.white}
+inherit = module/apps
+label = "  "
+click-left  = kitty --session /home/tea/Public/kitty_startup.conf
+
+
+
+
+
+[module/cpu2]
+; Powerline settings
+inherit            = powerline-templates/left-to-right-item-with-separator
+background         = ${colors.dgray}
+separator          = ${colors.gray}
+; Other settings
+type               = internal/cpu
+format-background  = ${self.background}
+format-foreground  = ${colors.white}
+label              = "  %{T2}%percentage%% %{T-}"
+label-maxlen = 50
+
+
+
+[module/memory2]
+; Powerline settings
+inherit            = powerline-templates/left-to-right-item-with-separator
+background         = ${colors.dgray}
+separator          = ${colors.gray}
+; Other settings
+type               = internal/memory
+format-background  = ${self.background}
+format-foreground  = ${colors.white}
+label              = "  %{T2}%percentage_used%% %{T-}"
+
+
+
+
+
+[module/temperature]
+; Powerline settings
+inherit            = powerline-templates/left-to-right-item-with-separator
+background         = ${colors.dgray}
+separator          = ${colors.gray}
+; Other settings
+content-background = ${self.background}
+format-foreground = ${colors.white}
+label-background = ${self.background}
+
+type = internal/temperature
+thermal-zone = 0
+format = <label>
+
+label = " ﮀ %{T2}%temperature-c% %{T-}"
+
+###########################################################################################################################
+#### from right end
+[module/line-end]
+; Powerline settings
+inherit            = powerline-modules/right-to-left-end-of-line-separator
+separator          = ${colors.dgray}
+
+
+
+[module/filler-right]
+; Powerline settings
+inherit            = powerline-templates/right-to-left-item-with-separator
+background         = ${colors.black}
+separator          = ${colors.black}
+; Other settings
+format-background = ${self.background}
+content-background = ${self.background}
+type               = custom/text
+content            = "                  "
+
+
+[module/date]
+; Powerline settings
+inherit            = powerline-templates/right-to-left-item-with-separator
+background         = ${colors.dgray}
+separator          = ${colors.dgray}
+
+type = internal/date
+interval = 5
+date = " %d.%m.%Y"
+time = "%H:%M"
+
+; Other settings
+label-background = ${self.background}
+label-foreground = ${colors.white}
+label              = "  %{T2}%date%    %{T-}%{T2} %time% %{T-} "
+
+
+[module/shutdown]
+; Powerline settings
+inherit            = powerline-templates/right-to-left-starting-item-with-separator
+background         = ${colors.sgray}
+separator          = ${colors.dgray}
+; Other settings
+format-background = ${self.background}
+format-foreground = ${colors.yellow}
+format = <label>
+label = " 襤 "
+click-left  = systemctl suspend
+type = custom/script
+exec = echo "o"
+
+
+[module/logout]
+; Powerline settings
+inherit            = module/shutdown
+background         = ${colors.sgray}
+separator          = ${colors.dgray}
+
+label = " ﲒ "
+click-left  = i3-msg exit
+
+
+
+
+[module/battery]
+; Powerline settings
+background         = ${colors.green}
+separator          = ${colors.dgray}
+
+
+type = internal/battery
+battery = BAT0
+adapter = ADP1
+
+full-at = 98
+low-at = 20
+
+format-charging =  %{T2}<label-charging>%{T-}
+format-charging-background = ${colors.green}
+format-charging-foreground = ${colors.base}
+format-charging-overline = ${colors.bg}
+format-charging-underline = ${colors.bg}
+format-charging-padding = 1
+
+format-discharging =  %{T2}<label-discharging>%{T-}
+format-discharging-background = ${colors.red}
+format-discharging-foreground = ${colors.base}
+format-discharging-overline = ${colors.bg}
+format-discharging-underline = ${colors.bg}
+format-discharging-padding = 1
+
+format-full =  %{T2}<label-full>%{T-}
+format-full-background = ${colors.green}
+format-full-foreground = ${colors.base}
+format-full-overline = ${colors.bg}
+format-full-underline = ${colors.bg}
+format-full-padding = 1
+
+format-low =  %{T2}<label-low>%{T-}
+format-low-background = ${colors.red}
+format-low-foreground = ${colors.base}
+format-low-overline = ${colors.bg}
+format-low-underline = ${colors.bg}
+format-low-padding = 1
+
+label-charging = %percentage%%
+label-charging-background = ${colors.dgray}
+label-charging-foreground = ${colors.fg}
+label-charging-padding = 1
+
+label-discharging = %percentage%%
+label-discharging-background = ${colors.dgray}
+label-discharging-foreground = ${colors.fg}
+label-discharging-padding = 1
+
+label-full = %percentage%%
+label-full-background = ${colors.dgray}
+label-full-foreground = ${colors.fg}
+label-full-padding = 1
+
+label-low = %percentage%% (l)
+label-low-background = ${colors.gray}
+label-low-foreground = ${colors.fg}
+label-low-padding = 1
+
+
+
+ 	[module/audio]
+; Powerline settings
+inherit            = powerline-templates/right-to-left-item-with-separator
+background         = ${colors.dgray}
+separator          = ${colors.dgray}
+
+type = internal/pulseaudio
+sink = bluez_output.11_11_22_33_36_7A.a2dp-sink
+
+use-ui-max = false
+
+interval = 5
+
+format-volume =  %{T2}<label-volume>%{T-}
+format-volume-background = ${colors.dgray}
+format-volume-foreground = ${colors.base}
+format-volume-overline = ${colors.bg}
+format-volume-underline = ${colors.bg}
+format-volume-padding = 1
+
+format-muted = 婢 %{T2}<label-muted> %{T-}
+format-muted-background = ${colors.blue}
+format-muted-foreground = ${colors.base}
+format-muted-overline = ${colors.bg}
+format-muted-underline = ${colors.bg}
+format-muted-padding = 1
+
+label-volume = %percentage%%
+label-volume-background = ${colors.dgray}
+label-volume-foreground = ${colors.fg}
+label-volume-padding = 1
+
+label-muted = "M"
+label-muted-background = ${colors.dgray}
+label-muted-foreground = ${colors.fg}
+label-muted-padding = 1
+
+
+
+[module/xworkspaces]
+inherit            = powerline-templates/right-to-left-item-with-separator
+background         = ${colors.dgray}
+separator          = ${colors.dgray}
+
+type = internal/xworkspaces
+
+
+label-active = %{T2}%name%%{T-}
+label-active-background = ${colors.sgray}
+label-active-foreground = ${colors.lgreen}
+label-active-overline = ${colors.lgreen}
+label-active-underline = ${colors.lgreen}
+label-active-padding = 1
+
+label-occupied = %{T2}%name%%{T-}
+label-occupied-background = ${colors.dgray}
+label-occupied-foreground = ${colors.yellow}
+label-occupied-overline = ${colors.bg}
+label-occupied-underline = ${colors.bg}
+label-occupied-padding = 1
+
+label-urgent = %{T2}%name%%{T-}
+label-urgent-background = ${colors.lgreen}
+label-urgent-overline = ${colors.bg}
+label-urgent-underline = ${colors.bg}
+label-urgent-padding = 1
+
+label-empty = _
+label-empty-background = ${colors.dgray}
+label-empty-overline = ${colors.white}
+label-empty-underline = ${colors.white}
+label-empty-padding = 1
+
+
+
